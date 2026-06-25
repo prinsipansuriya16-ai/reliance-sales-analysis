@@ -109,7 +109,7 @@ fig_MACD = go.Figure()
 fig_MACD.add_trace(go.Scatter(x=df['Date'] ,y=df['MACD_line'],mode='lines',name='MACD_line',line=dict(color="red")))
 fig_MACD.add_trace(go.Scatter(x=df['Date'] ,y=df['signal_line'],mode='lines',name='SIGNAL_line',line=dict(color="blue",width=2, dash='dot')))
 fig_MACD.add_trace(go.Bar(x=df['Date'] ,y=df['MACD_histogram'],name='Histogram',marker=dict(color=colors, opacity=1.0) ))
-fig_MACD.update_layout(title="MACD information", template='plotly_White', hovermode='x unified', yaxis_title='price($)' , xaxis_title="date/year")
+fig_MACD.update_layout(title="MACD information", template='plotly_white', hovermode='x unified', yaxis_title='price($)' , xaxis_title="date/year")
 
 # ==========================================
 # 4. DISPLAY LOGIC
