@@ -48,7 +48,7 @@ try:
     df['Month_Num'] = df['Date'].dt.month
 
     year_avg = df.groupby(by=['year', 'Month_Num'])['Close'].mean().reset_index()
-
+    
 
     def month(x):
         m = { 1:'january' , 2:'february' , 3:'march' , 4:'april' , 5:'may' , 6: 'june' , 7:'july' , 8:'august',
@@ -57,7 +57,9 @@ try:
         return m.get(x , "invalid number")
 
     year_avg['month name'] = pd.DataFrame(year_avg['Month_Num'].apply(month))
-    close_2020 = year_avg[year_avg['year'] == 2020].sort_values(by='Month_Num')
+    year_avg['month-year'] = year_avg['month name'] + '-' + year_avg['year'].astype(str)
+    year_avg = year_avg.sort_values(by=['year', 'Month_Num'])
+    # close_2020 = year_avg[year_avg['year'] == 2020].sort_values(by='Month_Num')
 
 
 except FileNotFoundError:
@@ -84,7 +86,7 @@ fig_close.update_layout(title='closing information' , xaxis_title="date/year" , 
 
 # ----close price per year----
 fig_year = go.Figure()
-fig_year.add_trace(go.Scatter(x=close_2020['month name'], y=close_2020['Close'], mode='lines', name='Closing price', line=dict(color='red')))
+fig_year.add_trace(go.Scatter(x=year_avg['month-year'], y=year_avg['Close'], mode='lines', name='Closing price', line=dict(color='red')))
 fig_year.update_layout(title='closing information' , xaxis_title="date/year" , yaxis_title="price($)" , template='plotly_dark',hovermode='x unified')
 
 # ------close,mean-20,mean-50
@@ -100,7 +102,7 @@ fig_rsi = go.Figure()
 fig_rsi.add_trace(go.Scatter(x=df['Date'], y=df['RSI'], mode='lines', name='RSI', line=dict(color='purple')))
 fig_rsi.add_hline(y=70, line_dash="dash", line_color="red") #overbought
 fig_rsi.add_hline(y=30, line_dash="dash", line_color="green") #oversell
-fig_rsi.update_layout(title="RSI (Overbought/Oversold Index)", template='plotly_white', hovermode='x unified', yaxis_title='RSI' , xaxis_title="date/year")
+fig_rsi.update_layout(title="RSI (Overbought/Oversold Index)", template='plotly_dark', hovermode='x unified', yaxis_title='RSI' , xaxis_title="date/year")
 
 
 # -----MACD-----
@@ -109,7 +111,7 @@ fig_MACD = go.Figure()
 fig_MACD.add_trace(go.Scatter(x=df['Date'] ,y=df['MACD_line'],mode='lines',name='MACD_line',line=dict(color="red")))
 fig_MACD.add_trace(go.Scatter(x=df['Date'] ,y=df['signal_line'],mode='lines',name='SIGNAL_line',line=dict(color="blue",width=2, dash='dot')))
 fig_MACD.add_trace(go.Bar(x=df['Date'] ,y=df['MACD_histogram'],name='Histogram',marker=dict(color=colors, opacity=1.0) ))
-fig_MACD.update_layout(title="MACD information", template='plotly_white', hovermode='x unified', yaxis_title='price($)' , xaxis_title="date/year")
+fig_MACD.update_layout(title="MACD information", template='plotly_dark', hovermode='x unified', yaxis_title='price($)' , xaxis_title="date/year")
 
 # ==========================================
 # 4. DISPLAY LOGIC
