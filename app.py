@@ -8,7 +8,7 @@ st.title("📊 Reliance Live Technical Analytics Dashboard")
 st.write("this dashboard shows close price , close vs mean_20 vs mean_50 price ,year wise monthly average price , RSI and MACD signals.")
  
 try:
-    df = pd.read_csv("reliance.csv")
+    df = pd.read_csv("Reliance.csv")
     df['Date'] = pd.to_datetime(df['Date'])
 
     df['mean_20'] = df['Close'].rolling(window=20).mean()
